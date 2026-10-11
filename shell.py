@@ -19,11 +19,14 @@ while True:
         print(os.getcwd())
 
     elif parts[0] == "cd":
-
         if len(parts) < 2:
+            print("cd: 请提供目录名称")
             continue
-        
-        os.chdir(parts[1])
+
+        try:
+            os.chdir(parts[1])
+        except OSError:
+            print("cd: 无法进入这个目录")
 
     else:
         try:
