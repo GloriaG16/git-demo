@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 while True:
     command = input("$ ")
@@ -6,7 +7,7 @@ while True:
     parts = command.split()
 
     if not parts:
-            continue
+        continue
     
     if parts[0] == "echo":
         print(" ".join(parts[1:]))
@@ -16,7 +17,16 @@ while True:
 
     elif parts[0] == "pwd":
         print(os.getcwd())
-    
+
+    elif parts[0] == "cd":
+
+        if len(parts) < 2:
+            continue
+        
+        os.chdir(parts[1])
+
     else:
-        print("你输入了：", command)
-    
+        try:
+            subprocess.run(parts)
+        except FileNotFoundError:
+            print("command not found")
