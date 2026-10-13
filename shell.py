@@ -1,10 +1,21 @@
 import os
 import subprocess
+import shlex
+
+def run_external_command(parts):
+    try:
+        subprocess.run(parts)
+    except FileNotFoundError:
+        print("command not found:", parts[0])
 
 while True:
     command = input("$ ")
 
-    parts = command.split()
+    try:
+        parts = shlex.split(command)
+    except ValueError:
+        print("命令格式有误，请检查引号")
+        continue
 
     if not parts:
         continue
@@ -29,7 +40,4 @@ while True:
             print("cd: 无法进入这个目录")
 
     else:
-        try:
-            subprocess.run(parts)
-        except FileNotFoundError:
-            print("command not found")
+        run_external_command(parts)
